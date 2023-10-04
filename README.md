@@ -36,7 +36,7 @@ gulp deploy
 запустить команду
 
 ```
-.\elma365pm unpack --src=lukoil-solution.e365 --out=lukoil-solution-unpacked
+.\elma365pm unpack --src=solution.e365 --out=solution-unpacked
 ```
 
 далее делаем коммит и пушим
