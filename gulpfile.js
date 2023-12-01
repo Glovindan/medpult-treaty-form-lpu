@@ -1,7 +1,7 @@
 const gulp = require('gulp')
 const babel = require('rollup-plugin-babel')
 const resolve = require('rollup-plugin-node-resolve')
-const commonjs = require('rollup-plugin-commonjs')
+const commonjs = require('rollup-plugin-commonjs') 
 
 const rollup = require('gulp-better-rollup')
 const rollupTypescript = require('rollup-plugin-typescript')
@@ -12,24 +12,27 @@ const del = require('del') // очищение папки
 const autoprefixer = require('gulp-autoprefixer') // простановка префиксов
 const group_media = require('gulp-group-css-media-queries') //группировка медиазапросов в конце файла
 const cssimport = require('gulp-cssimport') //импорт в css
+const minifyCss = require('gulp-clean-css')
+const minifyHtml = require('gulp-htmlmin')
 const sass = require('gulp-sass')(require('sass')) // scss
 const concat = require('gulp-concat')
+const uglify = require('gulp-uglify')
 
 const inlinesource = require('gulp-inline-source') //сборка в один файл
 const replace = require('gulp-replace') //замена строк в файле
 
 let path = {
   build: {
-    html: 'dist/',
+    html: 'dist/',  
     css: 'dist/',
     js: 'dist/',
   },
   src: {
     html: 'src/index.html',
     // scss: ['src/**/*.css', 'src/**/*.scss'],
-    scss: 'src/index.scss',
-    ts: 'src/index.ts',
-    js: 'src/index.js',
+    scss: 'src/style.scss',
+    ts: 'src/main.ts',
+    js: 'src/main.js',
   },
   watch: {
     html: 'src/**/*.html',
@@ -62,6 +65,7 @@ function html() {
         basepath: '@file',
       })
     )
+    .pipe(minifyHtml({ collapseWhitespace: true }))
     .pipe(gulp.dest(path.build.html))
     .pipe(browsersync.stream())
 }
@@ -69,7 +73,7 @@ function html() {
 function css() {
   return gulp
     .src(path.src.scss)
-    .pipe(concat('index.css'))
+    .pipe(concat('style.scss'))
     .pipe(cssimport())
     .pipe(sass())
     .pipe(
@@ -79,28 +83,30 @@ function css() {
       })
     )
     .pipe(group_media())
+    .pipe(minifyCss())
     .pipe(gulp.dest(path.build.css))
     .pipe(browsersync.stream())
 }
 
 function js() {
   return gulp
-    .src(path.src.ts, path.src)
-
+    .src(path.src.ts, path.src) 
     .pipe(
       rollup(
         {
           plugins: [
             resolve(),
             commonjs(),
-            rollupTypescript({ lib: ['es5', 'es6', 'dom'], target: 'es2017' }),
-            babel(),
+            rollupTypescript({include: '**/*.{ts,js}', lib: ['es5', 'es6', 'dom'], target: 'es5',noEmitHelpers:false, }),
+            babel({compact: false}),
           ],
         },
-        'umd'
-      )
+        'umd',
+        )
+        
     )
-    .pipe(concat('index.js'))
+    .pipe(uglify({ keep_fargs: true, keep_fnames: true, mangle: false }))
+    .pipe(concat('main.js'))
     .pipe(gulp.dest(path.build.js))
     .pipe(browsersync.stream())
 }
