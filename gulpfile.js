@@ -20,6 +20,7 @@ const uglify = require('gulp-uglify')
 
 const inlinesource = require('gulp-inline-source') //сборка в один файл
 const replace = require('gulp-replace') //замена строк в файле
+const replaceRollup = require('@rollup/plugin-replace') //замена строк через rollup
 
 let path = {
   build: {
@@ -31,13 +32,13 @@ let path = {
     html: 'src/index.html',
     // scss: ['src/**/*.css', 'src/**/*.scss'],
     scss: 'src/style.scss',
-    ts: 'src/main.ts',
+    ts: 'src/main.tsx',
     js: 'src/main.js',
   },
   watch: {
     html: 'src/**/*.html',
     scss: ['src/**/*.css', 'src/**/*.scss'],
-    ts: 'src/**/*.ts',
+    ts: 'src/**/*.tsx',
     js: 'src/**/*.js',
   },
   cleanDist: './dist/',
@@ -96,8 +97,16 @@ function js() {
         {
           plugins: [
             resolve(),
-            commonjs(),
-            rollupTypescript({include: '**/*.{ts,js}', lib: ['es5', 'es6', 'dom'], target: 'es5',noEmitHelpers:false, }),
+            commonjs({
+              namedExports: {
+                'node_modules/react/index.js': ['useState', 'useRef', 'useEffect','useContext'],
+                extensions: ['.js', '.ts','tsx','jsx']
+              },
+            }),
+            replaceRollup({
+              'process.env.NODE_ENV': JSON.stringify( 'production' ),
+            }),
+            rollupTypescript({include: '**/*.{ts,tsx,jsx,js}', lib: ['es5', 'es6', 'dom', "es2016", "es2017"],"jsx": "react", target: 'es5',noEmitHelpers:false, }),
             babel({compact: false}),
           ],
         },
@@ -114,7 +123,7 @@ function js() {
 function watchFiles() {
   gulp.watch([path.watch.html], html)
   gulp.watch(path.watch.scss, css)
-  gulp.watch([path.watch.ts], js)
+  gulp.watch([path.watch.ts,path.watch.js], js)
 }
 
 function bundle() {
@@ -140,6 +149,7 @@ async function replaceFuncNames() {
   return gulp
     .src(path.deploy + '/index.html')
     .pipe(replace('Scripts', '<%= Scripts%>'))
+    .pipe(replace('var <%= Scripts%>', 'var placehloder'))
     .pipe(gulp.dest(path.deploy))
 }
 
