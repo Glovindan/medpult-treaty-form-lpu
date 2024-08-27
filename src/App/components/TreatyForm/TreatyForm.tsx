@@ -56,10 +56,10 @@ export default function TreatyForm() {
 		}
 
 		// Получение данных из Системы
-		// const dataPromise: Promise<IFormDataLPU> = Scripts.getTreatyLPU();
-		// dataPromise.then((data) => {
-		// 	setValues(data)
-		// })
+		const dataPromise: Promise<IFormData> = Scripts.getTreatyLPU();
+		dataPromise.then((data) => {
+			setValues(data)
+		})
 	}, [])
 
 	// Debug
@@ -74,7 +74,7 @@ export default function TreatyForm() {
 
 	/** Нажатие на кнопку сохранить */
 	const onClickSave = async () => {
-		await Scripts.saveTreaty(values);
+		await Scripts.saveTreatyLPU(values);
 		setIsViewMode(true)
 	}
 

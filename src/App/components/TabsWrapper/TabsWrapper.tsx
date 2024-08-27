@@ -17,7 +17,6 @@ function TabsWrapper({ children, activeTabCodeGlobal, addHandler, editHandler, d
 
 	useEffect(() => {
 		if (setActiveTabCodeGlobal) setActiveTabCodeGlobal(activeTabCode)
-		console.log(activeTabCode)
 	}, [activeTabCode])
 
 	useEffect(() => {
@@ -25,7 +24,6 @@ function TabsWrapper({ children, activeTabCodeGlobal, addHandler, editHandler, d
 	}, [activeTabCodeGlobal])
 
 	const handleSelectorItemClick = (code: string) => {
-		console.log(code)
 		setActiveTabCode(code);
 	}
 
@@ -51,7 +49,6 @@ function TabsWrapper({ children, activeTabCodeGlobal, addHandler, editHandler, d
 	}
 
 	useEffect(() => {
-		console.log(children)
 		if (!Array.isArray(children)) {
 			setActiveTabCode(children.props.code)
 			return

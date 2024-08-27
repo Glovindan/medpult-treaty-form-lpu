@@ -9,7 +9,7 @@ interface ListColumnProps extends ListColumnData {
 function CustomListRowColumn(props: ListColumnProps) {
 	const { fr, data, isLink, onClick } = props;
 
-	const onClickColumn = isLink && onClick ? () => { onClick(data) } : () => { };
+	const onClickColumn = isLink && onClick ? (ev) => { ev.stopPropagation(); onClick(data) } : () => { };
 
 	return (
 		<div className={

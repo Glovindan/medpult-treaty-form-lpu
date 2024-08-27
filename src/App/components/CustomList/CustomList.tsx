@@ -35,20 +35,12 @@ function CustomList(props: ListProps) {
 	const [openRowIndex, setOpenRowIndex] = useState<number>();
 	const bodyRef = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
-		console.log(searchData)
-	}, [searchData])
-
 	const reloadData = () => {
 		setIsLoading(false);
 		setItems([])
 
 		loadData();
 	}
-
-	useEffect(() => {
-		console.log(items);
-	}, [items])
 
 	const loadData = async (items: any[] = [], page: number = 0, hasMore: boolean = true) => {
 		if (isLoading) return;

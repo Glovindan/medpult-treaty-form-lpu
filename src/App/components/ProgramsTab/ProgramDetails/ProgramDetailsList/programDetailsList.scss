@@ -1,0 +1,22 @@
+.program-details-list {
+	border: 2px solid var(--medpult-field-border-color);
+	border-radius: 7px;
+	overflow: hidden;
+
+	&__header {
+		border-bottom: 2px solid var(--medpult-field-border-color);
+		padding: 32px;
+
+		& > span {
+			font-family: 'Inter';
+			font-style: normal;
+			font-weight: 600;
+			font-size: 18px;
+			line-height: 120%;
+			display: flex;
+			align-items: center;
+			letter-spacing: 0.0015em;
+			color: #6b6b6f;
+		}
+	}
+}

@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react';
 
 import LabledField from '../LabledField/LabledField';
 import CustomInput from '../CustomInput/CustomInput';
-import { IFormData, IInputData, TabProps } from '../../shared/types';
+import { TabProps } from '../../shared/types';
 import CustomSelect from '../CustomSelect/CustomSelect';
 import Scripts from '../../shared/utils/clientScripts';
-import Masks from '../../shared/utils/masks';
 import CustomInputDate from '../CustomInputDate/CustomInputDate';
 import CustomInputAppItem from '../CustomInputAppItem/CustomInputAppItem';
-import CustomInputSearch from '../CustomInputSearch/CustomInputSearch';
 import { openContractorPage } from '../../shared/utils/utils';
 
 /** Вкладка Общее ЛПУ */
@@ -40,7 +38,7 @@ function GeneralTab(props: TabProps) {
 
 				<div className="general-tab-lpu__column">
 					<LabledField label={"ЛПУ"}>
-						<CustomInputAppItem clickHandler={onClickContractor} href={Scripts.getSelectContractorPageLink()} saveStateHandler={saveStateHandler} isViewMode={isViewMode} name='lpu' inputHandler={handler} values={values} />
+						<CustomInputAppItem clickHandler={onClickContractor} href={Scripts.getSelectLPULink()} saveStateHandler={saveStateHandler} isViewMode={isViewMode} name='lpu' inputHandler={handler} values={values} />
 					</LabledField>
 				</div>
 
@@ -54,7 +52,7 @@ function GeneralTab(props: TabProps) {
 			<div className="general-tab-lpu__columns">
 				<div className="general-tab-lpu__column">
 					<LabledField label={"Тип договора"}>
-						<CustomSelect isViewMode={isViewMode} getDataHandler={Scripts.getStatuses} name='type' inputHandler={handler} values={values} />
+						<CustomSelect isViewMode={isViewMode} getDataHandler={Scripts.getContractTypes} name='type' inputHandler={handler} values={values} />
 					</LabledField>
 				</div>
 

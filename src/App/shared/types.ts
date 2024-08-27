@@ -109,13 +109,13 @@ export class SideDataExtended {
 /** Сторона */
 export class SideData {
 	type: InputDataCategory
-	contractor: InputDataCategory
+	contractor: InputDataString
 	// isEdit: boolean
 
 	constructor(/* isEdit?: boolean */) {
 		// this.isEdit = !!isEdit
 		this.type = new InputDataCategory()
-		this.contractor = new InputDataCategory()
+		this.contractor = new InputDataString()
 	}
 }
 
@@ -299,5 +299,42 @@ export class PlanDetailsData {
 		this.parentPlan = new InputDataString()
 		this.region = new InputDataString()
 		this.medicalFactor = new InputDataString()
+	}
+}
+
+/** Детальные данные Программы страхования */
+export class ProgramDetailsData {
+	/** Номер */
+	number: InputDataString
+	/** Тип клиента */
+	clientType: InputDataCategory
+	/** Дата начала */
+	startDate: InputDataString
+	/** Дата окончания */
+	endDate: InputDataString
+	/** Уровень */
+	level: InputDataCategory
+
+	// /** Тип */
+	// type: InputDataCategory
+	// /** Признак */
+	// attribute: InputDataString
+	// /** Наименование */
+	// name: InputDataString
+	// /** Маркетинговое наименование */
+	// marketingName: InputDataString
+	// /** Возраст */
+	// age: InputDataString
+
+	constructor() {
+		this.number = new InputDataString()
+		this.startDate = new InputDataString()
+		this.endDate = new InputDataString()
+		this.level = new InputDataCategory()
+		// this.type = new InputDataCategory()
+		// this.attribute = new InputDataString()
+		// this.name = new InputDataString()
+		// this.marketingName = new InputDataString()
+		// this.age = new InputDataString()
 	}
 }
